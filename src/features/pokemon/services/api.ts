@@ -2,11 +2,16 @@ import { createApiClient } from '../../../shared/api/client';
 import {
   PokemonBasic,
   PokemonDetail,
+  PokemonListResponse,
   mapApiToPokemonBasic,
   mapApiToPokemonDetail,
 } from '../types/types';
 
+// Constantes
+//TODO: crear archivo de constantes para las URLs de la API y las imágenes de los Pokémon
 const API_BASE_URL = 'https://pokeapi.co/api/v2';
+const POKEMON_SPRITE_URL =
+  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
 const apiClient = createApiClient(API_BASE_URL);
 
 // Adaptador de repositorio simplificado
@@ -24,26 +29,20 @@ export const pokemonRepository = {
       console.log(
         `Fetching pokemon list with limit=${limit}, offset=${offset}`,
       );
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`,
+
+      const data = await apiClient.get<PokemonListResponse>(
+        `/pokemon?limit=${limit}&offset=${offset}`,
       );
 
-      if (!response.ok) {
-        throw new Error(`Error fetching Pokémon list: ${response.status}`);
-      }
-
-      const data = await response.json();
       console.log(`Received list with ${data.results.length} Pokémon`);
 
       // Crear objetos Pokémon directamente desde la lista
-      const pokemonList: PokemonBasic[] = data.results.map((pokemon: any) => {
-        const id = parseInt(
-          pokemon.url.split('/').filter(Boolean).pop() || '0',
-        );
+      const pokemonList: PokemonBasic[] = data.results.map((pokemon) => {
+        const id = extractPokemonId(pokemon.url);
         return {
           id,
-          name: pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1),
-          imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`,
+          name: capitalizeFirstLetter(pokemon.name),
+          imageUrl: `${POKEMON_SPRITE_URL}/${id}.png`,
         };
       });
 
@@ -54,29 +53,9 @@ export const pokemonRepository = {
       };
     } catch (error) {
       console.error('Error in getList:', error);
-      // En caso de error, devolver datos de fallback
       return {
-        results: [
-          {
-            id: 1,
-            name: 'Bulbasaur',
-            imageUrl:
-              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
-          },
-          {
-            id: 4,
-            name: 'Charmander',
-            imageUrl:
-              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-          },
-          {
-            id: 7,
-            name: 'Squirtle',
-            imageUrl:
-              'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png',
-          },
-        ],
-        count: 3,
+        results: [],
+        count: 0,
         next: null,
       };
     }
@@ -84,25 +63,52 @@ export const pokemonRepository = {
 
   // Obtener detalles de un Pokémon
   getDetail: async (idOrName: string | number): Promise<PokemonDetail> => {
-    const data = await apiClient.get<any>(`/pokemon/${idOrName}`);
-    return mapApiToPokemonDetail(data);
+    try {
+      const data = await apiClient.get<any>(`/pokemon/${idOrName}`);
+      return mapApiToPokemonDetail(data);
+    } catch (error) {
+      console.error(`Error fetching details for Pokémon ${idOrName}:`, error);
+      throw error;
+    }
   },
 
   // Buscar Pokémon por nombre
   searchByName: async (name: string): Promise<PokemonBasic[]> => {
-    // La PokéAPI no tiene endpoint de búsqueda directa, así que obtenemos varios y filtramos
-    const response = await apiClient.get<any>('/pokemon?limit=100');
-    const matchingPokemon = response.results.filter((p: any) =>
-      p.name.includes(name.toLowerCase()),
-    );
+    try {
+      // La PokéAPI no tiene endpoint de búsqueda directa, así que obtenemos varios y filtramos
+      const response =
+        await apiClient.get<PokemonListResponse>('/pokemon?limit=100');
+      const searchTerm = name.toLowerCase();
 
-    if (matchingPokemon.length === 0) return [];
+      const matchingPokemon = response.results.filter((p) =>
+        p.name.includes(searchTerm),
+      );
 
-    const detailPromises = matchingPokemon.map((p: any) =>
-      apiClient.get<any>(p.url.replace(API_BASE_URL, '')),
-    );
+      if (matchingPokemon.length === 0) return [];
 
-    const pokemonDetails = await Promise.all(detailPromises);
-    return pokemonDetails.map(mapApiToPokemonBasic);
+      const detailPromises = matchingPokemon.map((p) =>
+        apiClient.get<any>(p.url.replace(API_BASE_URL, '')),
+      );
+
+      const pokemonDetails = await Promise.all(detailPromises);
+      return pokemonDetails.map(mapApiToPokemonBasic);
+    } catch (error) {
+      console.error(`Error searching Pokémon by name "${name}":`, error);
+      return [];
+    }
   },
 };
+
+/**
+ * Extrae el ID de un Pokémon de su URL
+ */
+function extractPokemonId(url: string): number {
+  return parseInt(url.split('/').filter(Boolean).pop() || '0');
+}
+
+/**
+ * Capitaliza la primera letra de un string
+ */
+function capitalizeFirstLetter(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

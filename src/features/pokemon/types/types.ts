@@ -15,6 +15,16 @@ export interface PokemonDetail extends PokemonBasic {
   abilities: string[];
 }
 
+export interface PokemonListResponse {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: {
+    name: string;
+    url: string;
+  }[];
+}
+
 // Transformadores para mapear entre API y dominio
 export const mapApiToPokemonBasic = (apiData: any): PokemonBasic => {
   console.log('Mapping Pokemon data:', apiData.name);
