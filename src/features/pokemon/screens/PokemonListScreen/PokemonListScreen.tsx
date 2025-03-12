@@ -123,7 +123,7 @@ export const PokemonListScreen: React.FC = () => {
         data={displayedPokemon}
         renderItem={renderPokemonItem}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={3}
+        numColumns={2}
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={
           <Text style={styles.emptyText}>
