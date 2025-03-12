@@ -1,0 +1,182 @@
+{
+  "project_info": {
+    "project_number": "508664549153",
+    "project_id": "poc-expo-project",
+    "storage_bucket": "poc-expo-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508664549153:android:d3511e70a1df5f85a67860",
+        "android_client_info": {
+          "package_name": "com.walter.lambardi.ReactNativeTemplate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508664549153-gfonmtdfl92mr5paq3sjo9kfjth4rtm2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walter.lambardi.ReactNativeTemplate",
+            "certificate_hash": "bb0dac74d321e14367719b6291afa1666e445d75"
+          }
+        },
+        {
+          "client_id": "508664549153-iu5pblqbgnj4d4hq671qcilm7cerr12e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.walter.lambardi.ReactNativeTemplate",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "508664549153-0accs7a6cr8oemjp51dco090apv7vq8e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9v_8wnG7iNhG8-Aigqx3vBnn97nTmaKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508664549153-0accs7a6cr8oemjp51dco090apv7vq8e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "508664549153-buofkvq0dpvlf4r9dvm0rj95e7a4hob9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.walter.lambardi.ReactNativeTemplate"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508664549153:android:d3eb3bd9b404582ea67860",
+        "android_client_info": {
+          "package_name": "com.mediamonks.pocexpoproject.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508664549153-4339utvv3d2md964fo8hdfu983qcluq6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mediamonks.pocexpoproject.dev",
+            "certificate_hash": "7d9f6ce0841a0309da92109242cce0f9348da4cb"
+          }
+        },
+        {
+          "client_id": "508664549153-8q4pthd3586vi8a8jn1atj6eaukpo58q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mediamonks.pocexpoproject.dev",
+            "certificate_hash": "bb0dac74d321e14367719b6291afa1666e445d75"
+          }
+        },
+        {
+          "client_id": "508664549153-i5v9mhppmb31k93mbk19aigse02rjij0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mediamonks.pocexpoproject.dev",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "508664549153-0accs7a6cr8oemjp51dco090apv7vq8e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9v_8wnG7iNhG8-Aigqx3vBnn97nTmaKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508664549153-0accs7a6cr8oemjp51dco090apv7vq8e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "508664549153-buofkvq0dpvlf4r9dvm0rj95e7a4hob9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mediamonks.pocexpoproject"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508664549153:android:5a2c7c9855e34413a67860",
+        "android_client_info": {
+          "package_name": "com.mediamonks.pocexpoproject.preview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508664549153-95pnltikr231146s6q2ulti7tkhejvm4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mediamonks.pocexpoproject.preview",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "508664549153-heq0qnoihd33dkglpks7h10toatg0smq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mediamonks.pocexpoproject.preview",
+            "certificate_hash": "e3a1125d1aa5a0c56aa049a22d7ea39fca22d1b7"
+          }
+        },
+        {
+          "client_id": "508664549153-l7ns91kr9o5ht9e77c0u23uc821u0tdc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mediamonks.pocexpoproject.preview",
+            "certificate_hash": "bb0dac74d321e14367719b6291afa1666e445d75"
+          }
+        },
+        {
+          "client_id": "508664549153-0accs7a6cr8oemjp51dco090apv7vq8e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9v_8wnG7iNhG8-Aigqx3vBnn97nTmaKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508664549153-0accs7a6cr8oemjp51dco090apv7vq8e.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "508664549153-buofkvq0dpvlf4r9dvm0rj95e7a4hob9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mediamonks.pocexpoproject"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
