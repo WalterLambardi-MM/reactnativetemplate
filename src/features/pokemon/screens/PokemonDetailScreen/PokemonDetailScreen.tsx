@@ -8,7 +8,7 @@ import {
   formatStatName,
   getStatColor,
   getTypeColor,
-} from '../../utils/pokeUtils';
+} from '../../utils/pokemonUtils';
 
 type RouteParams = {
   PokemonDetail: {
