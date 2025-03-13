@@ -3,12 +3,24 @@ import {
   LoginCredentials,
   RegisterCredentials,
   User,
+  AuthProvider,
 } from '../types/auth.types';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import auth from '@react-native-firebase/auth';
+
+GoogleSignin.configure({
+  webClientId:
+    '508664549153-0accs7a6cr8oemjp51dco090apv7vq8e.apps.googleusercontent.com',
+});
 
 class AuthService {
   // Convertir usuario de Firebase a nuestro modelo
   private mapFirebaseUser(firebaseUser: any): User | null {
     if (!firebaseUser) return null;
+
     return {
       uid: firebaseUser.uid,
       email: firebaseUser.email,
@@ -16,10 +28,11 @@ class AuthService {
       photoURL: firebaseUser.photoURL,
       phoneNumber: firebaseUser.phoneNumber,
       emailVerified: firebaseUser.emailVerified,
+      providerId: firebaseUser.providerData[0]?.providerId,
     };
   }
 
-  // Registrar un nuevo usuario
+  // Registrar un nuevo usuario con email/password
   async register({
     email,
     password,
@@ -42,13 +55,67 @@ class AuthService {
     }
   }
 
-  // Iniciar sesión
+  // Iniciar sesión con email/password
   async login({ email, password }: LoginCredentials): Promise<User> {
     try {
       await firebaseAuth.signInWithEmailAndPassword(email, password);
       return this.mapFirebaseUser(firebaseAuth.currentUser) as User;
     } catch (error: any) {
       throw this.handleError(error);
+    }
+  }
+
+  // Iniciar sesión con Google
+  async loginWithGoogle(): Promise<User> {
+    try {
+      await GoogleSignin.hasPlayServices();
+      await GoogleSignin.signIn();
+      
+      const { accessToken, idToken } = await GoogleSignin.getTokens();
+      
+      if (!idToken) {
+        throw new Error('No ID token present!');
+      }
+
+      const googleCredential = auth.GoogleAuthProvider.credential(
+        idToken,
+        accessToken,
+      );
+
+      const userCredential =
+        await auth().signInWithCredential(googleCredential);
+      // Iniciar sesión en Firebase con la credencial
+      //const userCredential =
+      //await firebaseAuth.signInWithCredential(googleCredential);
+
+      return this.mapFirebaseUser(userCredential.user) as User;
+    } catch (error: any) {
+      console.error('Error en loginWithGoogle:', error);
+
+      // Manejar errores específicos de Google Sign-In
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        throw new Error('Inicio de sesión cancelado por el usuario');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        throw new Error('Operación de inicio de sesión en progreso');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        throw new Error('Google Play Services no está disponible');
+      }
+
+      throw this.handleError(error);
+    }
+  }
+
+  // Método genérico para iniciar sesión con cualquier proveedor
+  async loginWithProvider(provider: AuthProvider): Promise<User> {
+    switch (provider) {
+      case 'google':
+        return this.loginWithGoogle();
+      case 'email':
+        throw new Error(
+          'Usa el método login() para iniciar sesión con email/password',
+        );
+      default:
+        throw new Error(`Proveedor de autenticación no soportado: ${provider}`);
     }
   }
 

@@ -5,9 +5,11 @@ import {
   Text,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AuthForm } from '../components/AuthForm';
+import { GoogleSignInButton } from '../components/GoogleSignInButton';
 
 export const RegisterScreen = () => {
   const navigation = useNavigation();
@@ -23,10 +25,17 @@ export const RegisterScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.logo}>PokéApp</Text>
 
         <AuthForm type="register" onSuccess={handleRegisterSuccess} />
+        <View style={styles.dividerContainer}>
+          <View style={styles.divider} />
+          <Text style={styles.dividerText}>O</Text>
+          <View style={styles.divider} />
+        </View>
+
+        <GoogleSignInButton onSuccess={handleRegisterSuccess} />
 
         <View style={styles.loginContainer}>
           <Text style={styles.loginText}>¿Ya tienes cuenta?</Text>
@@ -34,7 +43,7 @@ export const RegisterScreen = () => {
             <Text style={styles.loginLink}>Inicia sesión</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -53,7 +62,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: 20,
     color: '#c62828',
   },
   loginContainer: {
@@ -69,5 +78,19 @@ const styles = StyleSheet.create({
     color: '#c62828',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#ddd',
+  },
+  dividerText: {
+    marginHorizontal: 10,
+    color: '#666',
   },
 });

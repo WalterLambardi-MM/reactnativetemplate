@@ -2,6 +2,7 @@
   "expo": {
     "name": "ReactNativeTemplate",
     "slug": "ReactNativeTemplate",
+    "scheme": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +15,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.walter.lambardi.ReactNativeTemplate",
+      "bundleIdentifier": "com.mediamonks.pocexpoproject",
       "googleServicesFile": "./firebase/GoogleService-Info.plist"
     },
     "android": {
@@ -22,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.walter.lambardi.ReactNativeTemplate",
+      "package": "com.mediamonks.pocexpoproject",
       "googleServicesFile": "./firebase/google-services.json"
     },
     "web": {
@@ -30,12 +31,19 @@
     },
     "plugins": [
       "@react-native-firebase/app",
+      "@react-native-firebase/auth",
       [
         "expo-build-properties",
         {
           "ios": {
             "useFrameworks": "static"
           }
+        }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.508664549153-rihssb3ahb7dvs4ubivt0m1lrqtsso13"
         }
       ]
     ]

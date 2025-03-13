@@ -5,6 +5,7 @@ export interface User {
   photoURL: string | null;
   phoneNumber: string | null;
   emailVerified: boolean;
+  providerId?: string;
 }
 
 export interface AuthState {
@@ -29,3 +30,5 @@ export interface AuthFormState {
   displayName?: string;
   confirmPassword?: string;
 }
+
+export type AuthProvider = 'google' | 'email';

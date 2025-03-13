@@ -3,6 +3,7 @@ import { persist, createJSONStorage, PersistOptions } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { authService } from '../services/authService';
 import {
+  AuthProvider,
   AuthState,
   LoginCredentials,
   RegisterCredentials,
@@ -18,6 +19,7 @@ interface AuthStore extends AuthState {
   initialize: () => Promise<void>;
   cleanup: () => void;
   login: (credentials: LoginCredentials) => Promise<void>;
+  loginWithProvider: (provider: AuthProvider) => Promise<void>;
   register: (credentials: RegisterCredentials) => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -132,6 +134,29 @@ const createBaseAuthStore: StateCreator<AuthStore, [], []> = (set, get) => ({
       throw error;
     }
   },
+
+  // Iniciar sesión con proveedor (Google, etc.)
+  loginWithProvider: async (provider: AuthProvider) => {
+    set({ isLoading: true, error: null });
+    try {
+      const user = await authService.loginWithProvider(provider);
+      console.log('Usuario autenticado con proveedor:', user);
+      set({
+        user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+    } catch (error: any) {
+      set({
+        error: error.message,
+        isLoading: false,
+        isAuthenticated: false,
+      });
+      throw error;
+    }
+  },
+
   // Registrar usuario
   register: async (credentials: RegisterCredentials) => {
     set({ isLoading: true, error: null });

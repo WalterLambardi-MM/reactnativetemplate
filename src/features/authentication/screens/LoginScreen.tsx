@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AuthForm } from '../components/AuthForm';
+import { GoogleSignInButton } from '../components/GoogleSignInButton';
 
 export const LoginScreen = () => {
   const navigation = useNavigation();
@@ -31,6 +32,14 @@ export const LoginScreen = () => {
         <Text style={styles.logo}>PokéApp</Text>
 
         <AuthForm type="login" onSuccess={handleLoginSuccess} />
+
+        <View style={styles.dividerContainer}>
+          <View style={styles.divider} />
+          <Text style={styles.dividerText}>O</Text>
+          <View style={styles.divider} />
+        </View>
+
+        <GoogleSignInButton onSuccess={handleLoginSuccess} />
 
         <View style={styles.links}>
           <TouchableOpacity onPress={handleForgotPassword}>
@@ -67,6 +76,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 40,
     color: '#c62828',
+  },
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: '#ddd',
+  },
+  dividerText: {
+    marginHorizontal: 10,
+    color: '#666',
   },
   links: {
     marginTop: 20,

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:508664549153:android:d3511e70a1df5f85a67860",
         "android_client_info": {
-          "package_name": "com.walter.lambardi.ReactNativeTemplate"
+          "package_name": "com.mediamonks.pocexpoproject"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "508664549153-gfonmtdfl92mr5paq3sjo9kfjth4rtm2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.walter.lambardi.ReactNativeTemplate",
+            "package_name": "com.mediamonks.pocexpoproject",
             "certificate_hash": "bb0dac74d321e14367719b6291afa1666e445d75"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "508664549153-iu5pblqbgnj4d4hq671qcilm7cerr12e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.walter.lambardi.ReactNativeTemplate",
+            "package_name": "com.mediamonks.pocexpoproject",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
@@ -50,7 +50,7 @@
               "client_id": "508664549153-buofkvq0dpvlf4r9dvm0rj95e7a4hob9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.walter.lambardi.ReactNativeTemplate"
+                "bundle_id": "com.mediamonks.pocexpoproject"
               }
             }
           ]
