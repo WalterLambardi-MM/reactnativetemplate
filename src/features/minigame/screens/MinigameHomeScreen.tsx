@@ -13,9 +13,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { ScoreBoard } from '../components/ScoreBoard';
 import { useMinigameStore } from '../store/minigameStore';
 import { GameType, GameDifficulty } from '../types/minigame.types';
+import { MainNavigationProp } from '../../../navigation/types';
 
 export const MinigameHomeScreen: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<MainNavigationProp<'MinigameHome'>>();
   const { scores, soundEnabled, toggleSound } = useMinigameStore();
 
   // Estado para la configuración del juego
@@ -23,9 +24,9 @@ export const MinigameHomeScreen: React.FC = () => {
     GameType.WHOS_THAT_POKEMON,
   );
   const [selectedDifficulty, setSelectedDifficulty] = useState(
-    GameDifficulty.MEDIUM,
+    GameDifficulty.EASY,
   );
-  const [questionCount, setQuestionCount] = useState(10);
+  const [questionCount, setQuestionCount] = useState(5);
 
   // Iniciar el juego
   const handleStartGame = () => {

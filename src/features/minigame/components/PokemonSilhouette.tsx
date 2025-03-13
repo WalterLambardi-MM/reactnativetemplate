@@ -20,7 +20,7 @@ export const PokemonSilhouette: React.FC<PokemonSilhouetteProps> = ({
 
       <Image
         source={{ uri: imageUrl }}
-        style={styles.image}
+        style={[styles.image, !revealed && styles.silhouetteImage]}
         resizeMode="contain"
         onLoad={() => setLoading(false)}
         onError={() => {

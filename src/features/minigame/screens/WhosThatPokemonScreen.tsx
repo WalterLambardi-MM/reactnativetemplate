@@ -20,6 +20,10 @@ import { MainNavigationProp, MainRouteProp } from '../../../navigation/types';
 import { useGameSound } from '../hooks/useGameSound';
 
 export const WhosThatPokemonScreen: React.FC = () => {
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  const [totalTime, setTotalTime] = useState<number>(0);
+  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
   const navigation = useNavigation<MainNavigationProp<'WhosThatPokemon'>>();
   const route = useRoute<MainRouteProp<'WhosThatPokemon'>>();
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -52,6 +56,65 @@ export const WhosThatPokemonScreen: React.FC = () => {
 
   // Estado para controlar la revelación de la respuesta
   const [revealed, setRevealed] = useState(false);
+  const [timeoutOccurred, setTimeoutOccurred] = useState(false);
+
+  // Efecto para reiniciar estados cuando cambia la pregunta
+  useEffect(() => {
+    if (currentQuestion) {
+      setRevealed(false);
+      setTimeoutOccurred(false);
+    }
+  }, [currentQuestion]);
+
+  useEffect(() => {
+    if (
+      currentQuestion &&
+      !currentQuestion.answered &&
+      currentGame?.status === GameStatus.IN_PROGRESS
+    ) {
+      // Obtener el límite de tiempo
+      const timeLimit =
+        gameConfig.timeLimit || getTimeLimitForDifficulty(difficulty);
+
+      // Establecer el tiempo total y el tiempo restante
+      setTotalTime(timeLimit);
+      setTimeRemaining(timeLimit);
+
+      // Crear un intervalo que actualice el tiempo restante
+      timerIntervalRef.current = setInterval(() => {
+        setTimeRemaining((prev) => {
+          const newTime = Math.max(0, prev - 0.1);
+
+          // Si el tiempo llega a cero, responder automáticamente
+          if (newTime <= 0 && !currentQuestion.answered) {
+            // Limpiar el intervalo
+            if (timerIntervalRef.current) {
+              clearInterval(timerIntervalRef.current);
+              timerIntervalRef.current = null;
+            }
+
+            // Marcar que ocurrió un timeout
+            setTimeoutOccurred(true);
+
+            // Revelar la respuesta
+            setRevealed(true);
+
+            // Responder con -1 para indicar tiempo agotado
+            answerQuestion(-1);
+          }
+
+          return newTime;
+        });
+      }, 100);
+
+      return () => {
+        if (timerIntervalRef.current) {
+          clearInterval(timerIntervalRef.current);
+          timerIntervalRef.current = null;
+        }
+      };
+    }
+  }, [currentQuestion, currentGame?.status]);
 
   // Iniciar el juego al montar el componente
   useEffect(() => {
@@ -95,12 +158,27 @@ export const WhosThatPokemonScreen: React.FC = () => {
       // Detener música de fondo al salir
       stopBackgroundMusic();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Manejar la selección de una opción
   const handleSelectOption = (optionIndex: number) => {
-    answerQuestion(optionIndex);
+    // Detener el temporizador
+    if (timerIntervalRef.current) {
+      clearInterval(timerIntervalRef.current);
+      timerIntervalRef.current = null;
+    }
+
+    // Si es tiempo agotado, marcar el estado
+    if (optionIndex === -1) {
+      setTimeoutOccurred(true);
+    }
+
+    // Siempre revelar la respuesta
     setRevealed(true);
+
+    // Registrar la respuesta
+    answerQuestion(optionIndex);
   };
 
   useEffect(() => {
@@ -115,7 +193,26 @@ export const WhosThatPokemonScreen: React.FC = () => {
   // Pasar a la siguiente pregunta
   const handleNextQuestion = () => {
     setRevealed(false);
-    nextQuestion();
+
+    // Verificar si es la última pregunta
+    if (
+      currentGame &&
+      currentGame.currentQuestionIndex >= currentGame.questions.length - 1
+    ) {
+      // Si es la última pregunta, finalizar el juego
+      const gameWithEndTime = {
+        ...currentGame,
+        endTime: Date.now(),
+      };
+
+      // Actualizar el juego con el tiempo de finalización
+      // Esto debería desencadenar la visualización de los resultados
+      // sin intentar cargar una nueva pregunta
+      nextQuestion();
+    } else {
+      // Si no es la última pregunta, avanzar normalmente
+      nextQuestion();
+    }
   };
 
   // Volver a la pantalla de inicio
@@ -185,6 +282,23 @@ export const WhosThatPokemonScreen: React.FC = () => {
       <View style={styles.gameContent}>
         <Text style={styles.title}>¿Quién es ese Pokémon?</Text>
 
+        {/* Temporizador visual */}
+        {currentQuestion && !currentQuestion.answered && (
+          <View style={styles.timerContainer}>
+            <View
+              style={[
+                styles.timerBar,
+                { width: `${(timeRemaining / totalTime) * 100}%` },
+                timeRemaining < totalTime * 0.3
+                  ? styles.timerCritical
+                  : timeRemaining < totalTime * 0.6
+                    ? styles.timerWarning
+                    : null,
+              ]}
+            />
+          </View>
+        )}
+
         {currentQuestion && (
           <>
             <PokemonSilhouette
@@ -203,17 +317,30 @@ export const WhosThatPokemonScreen: React.FC = () => {
               disabled={currentQuestion.answered}
             />
 
-            {currentQuestion.answered && (
+            {currentQuestion && currentQuestion.answered && (
               <View style={styles.resultContainer}>
-                <Text style={styles.resultText}>
-                  {currentQuestion.options[currentQuestion.selectedOption!]
-                    .id === currentQuestion.correctPokemon.id
-                    ? '¡Correcto!'
-                    : '¡Incorrecto!'}
-                </Text>
-                <Text style={styles.pokemonName}>
-                  Es {currentQuestion.correctPokemon.name}
-                </Text>
+                {timeoutOccurred || currentQuestion.selectedOption === -1 ? (
+                  // Mensaje de tiempo agotado
+                  <>
+                    <Text style={styles.timeoutText}>¡Tiempo agotado!</Text>
+                    <Text style={styles.pokemonName}>
+                      Es {currentQuestion.correctPokemon.name}
+                    </Text>
+                  </>
+                ) : (
+                  // Mensaje normal de correcto/incorrecto
+                  <>
+                    <Text style={styles.resultText}>
+                      {currentQuestion.options[currentQuestion.selectedOption!]
+                        .id === currentQuestion.correctPokemon.id
+                        ? '¡Correcto!'
+                        : '¡Incorrecto!'}
+                    </Text>
+                    <Text style={styles.pokemonName}>
+                      Es {currentQuestion.correctPokemon.name}
+                    </Text>
+                  </>
+                )}
 
                 {currentGame?.currentQuestionIndex ===
                 (currentGame?.questions.length ?? 0) - 1 ? (
@@ -372,5 +499,30 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  timerContainer: {
+    height: 8,
+    backgroundColor: '#e0e0e0',
+    borderRadius: 4,
+    marginVertical: 15,
+    width: '100%',
+    overflow: 'hidden',
+  },
+  timerBar: {
+    height: '100%',
+    backgroundColor: '#4caf50',
+    borderRadius: 4,
+  },
+  timerWarning: {
+    backgroundColor: '#ff9800',
+  },
+  timerCritical: {
+    backgroundColor: '#f44336',
+  },
+  timeoutText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#ff9800',
   },
 });

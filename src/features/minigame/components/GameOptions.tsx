@@ -31,21 +31,26 @@ export const GameOptions: React.FC<GameOptionsProps> = ({
     index: number;
   }) => {
     // Determinar el estilo del botón según la selección y corrección
-    let buttonStyle = styles.optionButton;
-    let textStyle = styles.optionText;
+    let buttonStyle = { ...styles.optionButton };
+    let textStyle = { ...styles.optionText };
 
     if (selectedOption !== undefined) {
-      if (index === selectedOption) {
+      if (selectedOption === -1) {
+        // Tiempo agotado, solo resaltar la opción correcta
+        if (correctOption !== undefined && index === correctOption) {
+          buttonStyle = { ...buttonStyle, ...styles.correctOption };
+        }
+      } else if (index === selectedOption) {
         if (correctOption !== undefined && index === correctOption) {
           // Opción seleccionada y correcta
-          buttonStyle = [styles.optionButton, styles.correctOption];
+          buttonStyle = { ...buttonStyle, ...styles.correctOption };
         } else {
           // Opción seleccionada pero incorrecta
-          buttonStyle = [styles.optionButton, styles.incorrectOption];
+          buttonStyle = { ...buttonStyle, ...styles.incorrectOption };
         }
       } else if (correctOption !== undefined && index === correctOption) {
         // Opción correcta pero no seleccionada
-        buttonStyle = [styles.optionButton, styles.correctOption];
+        buttonStyle = { ...buttonStyle, ...styles.correctOption };
       }
     }
 

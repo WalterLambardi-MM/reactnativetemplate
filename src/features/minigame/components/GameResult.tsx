@@ -22,10 +22,14 @@ export const GameResult: React.FC<GameResultProps> = ({
   // Calcular estadísticas
   const totalQuestions = game.questions.length;
   const correctAnswers = game.questions.filter((q) => {
-    if (q.selectedOption === undefined) return false;
-    return q.options[q.selectedOption].id === q.correctPokemon.id;
+    if (q.selectedOption === undefined || q.selectedOption === -1) return false;
+    try {
+      return q.options[q.selectedOption].id === q.correctPokemon.id;
+    } catch (error) {
+      console.error('Error checking correct answer:', error);
+      return false;
+    }
   }).length;
-
   const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
 
   // Calcular tiempo total
@@ -44,6 +48,17 @@ export const GameResult: React.FC<GameResultProps> = ({
     message = 'Buen intento. Sigue practicando para mejorar.';
   } else {
     message = 'Necesitas estudiar más sobre Pokémon. ¡No te rindas!';
+  }
+
+  if (!game || !game.questions || game.questions.length === 0) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>No hay datos de juego disponibles.</Text>
+        <TouchableOpacity style={styles.button} onPress={onGoHome}>
+          <Text style={styles.buttonText}>Volver al Inicio</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 
   return (
@@ -155,6 +170,10 @@ const styles = StyleSheet.create({
   },
   homeButton: {
     backgroundColor: '#333',
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#c62828',
   },
   buttonText: {
     color: 'white',

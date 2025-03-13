@@ -90,9 +90,9 @@ export const useMinigameStore = create<MinigameStore>()(
         // Si optionIndex es -1 (tiempo agotado), siempre es incorrecto
         const isCorrect =
           optionIndex >= 0 &&
-          question.options[optionIndex].id === question.correctPokemon.id;
+          question.options[optionIndex]?.id === question.correctPokemon.id;
 
-        // Calcular puntuación
+        // No hay puntos adicionales cuando se agota el tiempo
         let additionalScore = 0;
         if (isCorrect) {
           additionalScore = calculateScore(
@@ -139,9 +139,24 @@ export const useMinigameStore = create<MinigameStore>()(
         const { currentGame } = get();
         if (!currentGame) return;
 
+        // Asegurarse de que todas las preguntas están respondidas
+        const updatedQuestions = currentGame.questions.map((question) => {
+          if (!question.answered) {
+            // Si hay alguna pregunta sin responder, marcarla como tiempo agotado
+            return {
+              ...question,
+              answered: true,
+              selectedOption: -1,
+              timeSpent: 0,
+            };
+          }
+          return question;
+        });
+
         // Marcar el juego como completado
         const completedGame: CurrentGame = {
           ...currentGame,
+          questions: updatedQuestions,
           endTime: Date.now(),
           status: GameStatus.COMPLETED,
         };
