@@ -9,6 +9,7 @@ import {
   getStatColor,
   getTypeColor,
 } from '../../utils/pokemonUtils';
+import { MaterialIcons } from '@expo/vector-icons';
 
 type RouteParams = {
   PokemonDetail: {
@@ -51,7 +52,11 @@ export const PokemonDetailScreen: React.FC = () => {
           onPress={toggleFavorite}
           style={styles.favoriteButton}
         >
-          <Text style={styles.favoriteIcon}>{isFavorite ? '★' : '☆'}</Text>
+          <MaterialIcons
+            name={isFavorite ? 'star' : 'star-border'}
+            size={32}
+            color="#FFD700"
+          />
         </TouchableOpacity>
       </View>
 
