@@ -1,18 +1,6 @@
 import { GameDifficulty } from '../types/minigame.types';
 
 /**
- * Baraja un array utilizando el algoritmo de Fisher-Yates
- */
-export const shuffleArray = <T>(array: T[]): T[] => {
-  const result = [...array];
-  for (let i = result.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [result[i], result[j]] = [result[j], result[i]];
-  }
-  return result;
-};
-
-/**
  * Calcula la puntuación para una pregunta basada en el tiempo y la dificultad
  */
 export const calculateScore = (
@@ -58,17 +46,6 @@ export const getTimeLimitForDifficulty = (
     case GameDifficulty.HARD:
       return 5; // 5 segundos
   }
-};
-
-/**
- * Formatea el tiempo en milisegundos a un formato legible
- */
-export const formatTime = (timeMs: number): string => {
-  const totalSeconds = Math.ceil(timeMs / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-
-  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
 /**

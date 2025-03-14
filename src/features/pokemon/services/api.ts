@@ -1,23 +1,33 @@
 import { createApiClient } from '../../../shared/api/client';
+import { PaginatedResponse } from '../../../shared/types/api';
+import {
+  API_BASE_URL,
+  DEFAULT_PAGE_SIZE,
+  POKEMON_SPRITE_URL,
+} from '../../../shared/constants/api';
 import {
   PokemonBasic,
   PokemonDetail,
-  PokemonListResponse,
   mapApiToPokemonBasic,
   mapApiToPokemonDetail,
 } from '../types/types';
+import { capitalizeFirstLetter } from '../../../shared/utils/arrayUtils';
+import { extractPokemonId } from '../../../shared/utils/formatUtils';
 
-// Constantes
-//TODO: crear archivo de constantes para las URLs de la API y las imágenes de los Pokémon
-const API_BASE_URL = 'https://pokeapi.co/api/v2';
-const POKEMON_SPRITE_URL =
-  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon';
+// Tipos específicos de la API de Pokémon
+interface PokemonListItem {
+  name: string;
+  url: string;
+}
+
+type PokemonListResponse = PaginatedResponse<PokemonListItem>;
+
 const apiClient = createApiClient(API_BASE_URL);
 
 // Adaptador de repositorio simplificado
 export const pokemonRepository = {
   getList: async (
-    limit = 20,
+    limit = DEFAULT_PAGE_SIZE,
     offset = 0,
   ): Promise<{
     results: PokemonBasic[];
@@ -25,7 +35,6 @@ export const pokemonRepository = {
     next: string | null;
   }> => {
     try {
-      // Una sola petición para obtener la lista básica
       console.log(
         `Fetching pokemon list with limit=${limit}, offset=${offset}`,
       );
@@ -64,7 +73,9 @@ export const pokemonRepository = {
   // Obtener detalles de un Pokémon
   getDetail: async (idOrName: string | number): Promise<PokemonDetail> => {
     try {
-      const data = await apiClient.get<any>(`/pokemon/${idOrName}`);
+      const data = await apiClient.get<PokemonListResponse>(
+        `/pokemon/${idOrName}`,
+      );
       return mapApiToPokemonDetail(data);
     } catch (error) {
       console.error(`Error fetching details for Pokémon ${idOrName}:`, error);
@@ -87,7 +98,7 @@ export const pokemonRepository = {
       if (matchingPokemon.length === 0) return [];
 
       const detailPromises = matchingPokemon.map((p) =>
-        apiClient.get<any>(p.url.replace(API_BASE_URL, '')),
+        apiClient.get<PokemonListResponse>(p.url.replace(API_BASE_URL, '')),
       );
 
       const pokemonDetails = await Promise.all(detailPromises);
@@ -98,17 +109,3 @@ export const pokemonRepository = {
     }
   },
 };
-
-/**
- * Extrae el ID de un Pokémon de su URL
- */
-function extractPokemonId(url: string): number {
-  return parseInt(url.split('/').filter(Boolean).pop() || '0');
-}
-
-/**
- * Capitaliza la primera letra de un string
- */
-function capitalizeFirstLetter(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}

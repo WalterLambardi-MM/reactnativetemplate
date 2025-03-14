@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { ApiError } from './error-handling';
+import { API_TIMEOUT } from '../constants/api';
+import { ApiResponse } from '../types/api';
 
 export const createApiClient = (baseURL: string) => {
   const axiosInstance = axios.create({
     baseURL,
-    timeout: 10000,
+    timeout: API_TIMEOUT,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -12,8 +14,21 @@ export const createApiClient = (baseURL: string) => {
 
   const get = async <T>(endpoint: string): Promise<T> => {
     try {
-      const response = await axiosInstance.get<T>(endpoint);
-      return response.data;
+      const response = await axiosInstance.get<ApiResponse<T> | T>(endpoint);
+
+      // Si la respuesta tiene el formato ApiResponse, devuelve data
+      if (
+        response.data &&
+        response.data &&
+        typeof response.data === 'object' &&
+        'data' in response.data &&
+        'status' in response.data
+      ) {
+        return (response.data as ApiResponse<T>).data;
+      }
+
+      // Si no, devuelve la respuesta directamente
+      return response.data as T;
     } catch (error) {
       console.error('API Error:', error);
       if (axios.isAxiosError(error)) {

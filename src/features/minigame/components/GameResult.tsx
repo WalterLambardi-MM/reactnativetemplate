@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { CurrentGame } from '../types/minigame.types';
+import { formatTime } from '../../../shared/utils/formatUtils';
 
 interface GameResultProps {
   game: CurrentGame;
@@ -33,10 +34,10 @@ export const GameResult: React.FC<GameResultProps> = ({
   const accuracy = Math.round((correctAnswers / totalQuestions) * 100);
 
   // Calcular tiempo total
-  const totalTime =
-    game.endTime && game.startTime
-      ? Math.floor((game.endTime - game.startTime) / 1000)
-      : 0;
+  const totalTimeMs =
+    game.endTime && game.startTime ? game.endTime - game.startTime : 0;
+
+  const formattedTime = formatTime(totalTimeMs);
 
   // Determinar mensaje según el rendimiento
   let message = '';
@@ -86,7 +87,7 @@ export const GameResult: React.FC<GameResultProps> = ({
         </View>
 
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{totalTime}s</Text>
+          <Text style={styles.statValue}>{formattedTime}</Text>
           <Text style={styles.statLabel}>Tiempo</Text>
         </View>
       </View>

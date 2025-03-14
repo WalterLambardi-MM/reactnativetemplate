@@ -1,3 +1,4 @@
+import { shuffleArray } from '../../../shared/utils/arrayUtils';
 import { pokemonRepository } from '../../pokemon/services/api';
 import { PokemonBasic } from '../../pokemon/types/types';
 import {
@@ -35,7 +36,7 @@ class MinigameService {
     config: GameConfig,
   ): GameQuestion[] {
     // Barajar la lista de Pokémon
-    const shuffledPokemon = this.shuffleArray([...pokemonList]);
+    const shuffledPokemon = shuffleArray([...pokemonList]);
 
     // Determinar número de opciones según dificultad
     let optionsCount = 4;
@@ -90,7 +91,7 @@ class MinigameService {
     const otherPokemon = allPokemon.filter((p) => p.id !== correctPokemon.id);
 
     // Barajar los Pokémon restantes
-    const shuffledOthers = this.shuffleArray(otherPokemon);
+    const shuffledOthers = shuffleArray(otherPokemon);
 
     // Tomar count-1 Pokémon incorrectos
     const incorrectOptions = shuffledOthers.slice(0, count - 1);
@@ -99,17 +100,7 @@ class MinigameService {
     const allOptions = [...incorrectOptions, correctPokemon];
 
     // Barajar las opciones para que la correcta no esté siempre en la misma posición
-    return this.shuffleArray(allOptions);
-  }
-
-  // Barajar un array (algoritmo de Fisher-Yates)
-  private shuffleArray<T>(array: T[]): T[] {
-    const result = [...array];
-    for (let i = result.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result;
+    return shuffleArray(allOptions);
   }
 
   // Calcular puntuación para una pregunta

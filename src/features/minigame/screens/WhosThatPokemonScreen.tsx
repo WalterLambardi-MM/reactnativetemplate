@@ -7,7 +7,7 @@ import { LoadingGame } from '../components/LoadingGame';
 import { ErrorScreen } from '../components/ErrorScreen';
 import { GameContent } from '../components/GameContent';
 import { useWhosThatPokemon } from '../hooks/useWhosThatPokemon';
-import { useBackHandler } from '../hooks/useBackHandler';
+import { useGameBackHandler } from '../hooks/useGameBackHandler';
 import { GameStatus, GameType, GameDifficulty } from '../types/minigame.types';
 import { MainNavigationProp, MainRouteProp } from '../../../navigation/types';
 import { getTimeLimitForDifficulty } from '../utils/gameUtils';
@@ -57,7 +57,7 @@ export const WhosThatPokemonScreen: React.FC = () => {
   }, [restartGame]);
 
   // Manejar el botón de retroceso
-  useBackHandler({
+  useGameBackHandler({
     isGameInProgress: currentGame?.status === GameStatus.IN_PROGRESS,
     onExit: handleGoHome,
   });

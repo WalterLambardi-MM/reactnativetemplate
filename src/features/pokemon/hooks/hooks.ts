@@ -3,6 +3,7 @@ import { usePokemonStore } from '../store/store';
 import { pokemonRepository } from '../services/api';
 import { PokemonBasic } from '../types/types';
 import { ApiError } from '../../../shared/api/error-handling';
+import { DEFAULT_PAGE_SIZE } from '../../../shared/constants/api';
 
 // Caso de uso: Listar Pokémon paginado
 export const usePokemonList = () => {
@@ -31,7 +32,10 @@ export const usePokemonList = () => {
     setPage(1);
 
     try {
-      const { results, count } = await pokemonRepository.getList(20, 0);
+      const { results, count } = await pokemonRepository.getList(
+        DEFAULT_PAGE_SIZE,
+        0,
+      );
 
       setAllPokemon(results);
       setPokemonList(results, count);
@@ -56,11 +60,14 @@ export const usePokemonList = () => {
 
     setIsLoadingMore(true);
     const nextPage = page + 1;
-    const offset = (nextPage - 1) * 20;
+    const offset = (nextPage - 1) * DEFAULT_PAGE_SIZE;
 
     try {
       console.log(`Loading more Pokemon: page ${nextPage}, offset ${offset}`);
-      const { results, count } = await pokemonRepository.getList(20, offset);
+      const { results, count } = await pokemonRepository.getList(
+        DEFAULT_PAGE_SIZE,
+        offset,
+      );
 
       // Combinar con los Pokémon existentes
       const newAllPokemon = [...allPokemon, ...results];
