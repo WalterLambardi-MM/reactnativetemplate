@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import { PokemonBasic } from '../types/types';
+import { PokemonBasic } from '../types/pokemon.types';
 import { PokemonCard } from './PokemonCard';
 
 interface PokemonListProps {

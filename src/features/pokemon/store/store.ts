@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage, PersistOptions } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { PokemonBasic, PokemonDetail } from '../types/types';
+import { PokemonBasic, PokemonDetail } from '../types/pokemon.types';
 import { withReactotron } from '../../../../ReactotronConfig';
 import { StateCreator } from 'zustand';
 

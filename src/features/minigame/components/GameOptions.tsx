@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FlatList,
 } from 'react-native';
-import { PokemonBasic } from '../../pokemon/types/types';
+import { PokemonBasic } from '../../pokemon/types/pokemon.types';
 
 interface GameOptionsProps {
   options: PokemonBasic[];

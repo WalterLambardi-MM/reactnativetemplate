@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePokemonStore } from '../store/store';
 import { pokemonService } from '../services/pokemonApi';
-import { PokemonBasic } from '../types/types';
+import { PokemonBasic } from '../types/pokemon.types';
 import { ApiError } from '../../../shared/api/error-handling';
 import { DEFAULT_PAGE_SIZE } from '../../../shared/constants/api';
 

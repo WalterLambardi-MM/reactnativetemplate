@@ -10,7 +10,7 @@ import {
   PokemonDetail,
   mapApiToPokemonBasic,
   mapApiToPokemonDetail,
-} from '../types/types';
+} from '../types/pokemon.types';
 import { capitalizeFirstLetter } from '../../../shared/utils/arrayUtils';
 import { extractPokemonId } from '../../../shared/utils/formatUtils';
 

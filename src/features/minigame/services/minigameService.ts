@@ -1,6 +1,6 @@
 import { shuffleArray } from '../../../shared/utils/arrayUtils';
 import { pokemonService } from '../../pokemon/services/pokemonApi';
-import { PokemonBasic } from '../../pokemon/types/types';
+import { PokemonBasic } from '../../pokemon/types/pokemon.types';
 import {
   GameConfig,
   GameQuestion,

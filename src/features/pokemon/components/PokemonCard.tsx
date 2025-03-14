@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
 import { Card } from '../../../shared/components';
-import { PokemonBasic } from '../types/types';
+import { PokemonBasic } from '../types/pokemon.types';
 
 interface PokemonCardProps {
   pokemon: PokemonBasic;

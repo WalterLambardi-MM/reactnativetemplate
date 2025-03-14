@@ -1,4 +1,4 @@
-import { PokemonBasic } from '../../pokemon/types/types';
+import { PokemonBasic } from '../../pokemon/types/pokemon.types';
 
 export interface MinigameState {
   scores: GameScore[];

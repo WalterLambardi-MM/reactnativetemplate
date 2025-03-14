@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { PokemonDetail } from '../types/types';
+import { PokemonDetail } from '../types/pokemon.types';
 import {
   formatStatName,
   getStatColor,
