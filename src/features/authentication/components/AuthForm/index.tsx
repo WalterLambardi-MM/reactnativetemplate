@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import {
   View,
   TextInput,
-  StyleSheet,
   Text,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import { AuthFormState } from '../types/auth.types';
-import { useAuthForm } from '../hooks/useAuthForm';
+import { AuthFormState } from '../../types/auth.types';
+import { useAuthForm } from '../../hooks/useAuthForm';
+import styles from './styles';
 
 interface AuthFormProps {
   type: 'login' | 'register' | 'reset';
@@ -174,50 +174,3 @@ export const AuthForm: React.FC<AuthFormProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    padding: 16,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  inputContainer: {
-    marginBottom: 16,
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-  },
-  button: {
-    backgroundColor: '#c62828',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 16,
-  },
-  buttonDisabled: {
-    backgroundColor: '#cccccc',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: 14,
-    marginTop: 4,
-  },
-});

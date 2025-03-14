@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
-import { ProfileForm } from '../components/ProfileForm';
-import { useProfileViewModel } from '../hooks/useProfileViewModel';
-import { LoadingIndicator } from '../../../shared/components';
+import { View, Text, SafeAreaView } from 'react-native';
+import { ProfileForm } from '../../components/ProfileForm';
+import { useProfileViewModel } from '../../hooks/useProfileViewModel';
+import { LoadingIndicator } from '../../../../shared/components';
+import styles from './styles';
 
 export const ProfileScreen: React.FC = () => {
   const {
@@ -43,20 +44,3 @@ export const ProfileScreen: React.FC = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f5f5f5',
-  },
-  content: {
-    flex: 1,
-    padding: 20,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 30,
-    textAlign: 'center',
-  },
-});
