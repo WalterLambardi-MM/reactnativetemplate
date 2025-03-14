@@ -7,6 +7,7 @@ import {
   ScrollView,
   Switch,
   Image,
+  LogBox,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -14,6 +15,8 @@ import { ScoreBoard } from '../components/ScoreBoard';
 import { useMinigameStore } from '../store/minigameStore';
 import { GameType, GameDifficulty } from '../types/minigame.types';
 import { MainNavigationProp } from '../../../navigation/types';
+
+LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 
 export const MinigameHomeScreen: React.FC = () => {
   const navigation = useNavigation<MainNavigationProp<'MinigameHome'>>();
