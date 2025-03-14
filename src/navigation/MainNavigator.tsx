@@ -6,7 +6,7 @@ import { PokemonDetailScreen } from '../features/pokemon/screens/PokemonDetailSc
 import { ProfileScreen } from '../features/authentication/screens/ProfileScreen';
 import { MinigameHomeScreen } from '../features/minigame/screens/MinigameHomeScreen';
 import { WhosThatPokemonScreen } from '../features/minigame/screens/WhosThatPokemonScreen';
-import { MainStackParamList } from './types';
+import { MainStackParamList } from '../shared/types/navigation.types';
 import {
   HeaderProfileButton,
   HeaderMinigameButton,

@@ -1,4 +1,4 @@
-import { ApiError as IApiError } from '../types/api';
+import { ApiError as IApiError } from '../types/api.types';
 
 export class ApiError extends Error implements IApiError {
   constructor(

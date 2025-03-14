@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ApiError } from './error-handling';
 import { API_TIMEOUT } from '../constants/api';
-import { ApiResponse } from '../types/api';
+import { ApiResponse } from '../types/api.types';
 
 export const createApiClient = (baseURL: string) => {
   const axiosInstance = axios.create({

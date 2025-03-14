@@ -1,5 +1,5 @@
 import { shuffleArray } from '../../../shared/utils/arrayUtils';
-import { pokemonRepository } from '../../pokemon/services/api';
+import { pokemonService } from '../../pokemon/services/pokemonApi';
 import { PokemonBasic } from '../../pokemon/types/types';
 import {
   GameConfig,
@@ -87,7 +87,7 @@ export const createGame = async (
 ): Promise<GameQuestion[]> => {
   try {
     // Obtener una lista de Pokémon para el juego
-    const { results: pokemonList } = await pokemonRepository.getList(100, 0);
+    const { results: pokemonList } = await pokemonService.getList(100, 0);
 
     // Crear preguntas según el tipo de juego
     switch (config.gameType) {

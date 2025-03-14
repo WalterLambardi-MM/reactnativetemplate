@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AuthStackParamList } from './types';
+import { AuthStackParamList } from '../shared/types/navigation.types';
 import {
   LoginScreen,
   PasswordResetScreen,

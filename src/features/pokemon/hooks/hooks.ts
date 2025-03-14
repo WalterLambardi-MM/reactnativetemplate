@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePokemonStore } from '../store/store';
-import { pokemonRepository } from '../services/api';
+import { pokemonService } from '../services/pokemonApi';
 import { PokemonBasic } from '../types/types';
 import { ApiError } from '../../../shared/api/error-handling';
 import { DEFAULT_PAGE_SIZE } from '../../../shared/constants/api';
@@ -32,7 +32,7 @@ export const usePokemonList = () => {
     setPage(1);
 
     try {
-      const { results, count } = await pokemonRepository.getList(
+      const { results, count } = await pokemonService.getList(
         DEFAULT_PAGE_SIZE,
         0,
       );
@@ -64,7 +64,7 @@ export const usePokemonList = () => {
 
     try {
       console.log(`Loading more Pokemon: page ${nextPage}, offset ${offset}`);
-      const { results, count } = await pokemonRepository.getList(
+      const { results, count } = await pokemonService.getList(
         DEFAULT_PAGE_SIZE,
         offset,
       );
@@ -131,7 +131,7 @@ export const usePokemonDetail = (idOrName: string | number) => {
     clearError();
 
     try {
-      const pokemonDetail = await pokemonRepository.getDetail(idOrName);
+      const pokemonDetail = await pokemonService.getDetail(idOrName);
       setSelectedPokemon(pokemonDetail);
     } catch (err) {
       const message =

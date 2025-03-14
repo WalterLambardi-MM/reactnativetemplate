@@ -1,5 +1,5 @@
 import { createApiClient } from '../../../shared/api/client';
-import { PaginatedResponse } from '../../../shared/types/api';
+import { PaginatedResponse } from '../../../shared/types/api.types';
 import {
   API_BASE_URL,
   DEFAULT_PAGE_SIZE,
@@ -24,8 +24,7 @@ type PokemonListResponse = PaginatedResponse<PokemonListItem>;
 
 const apiClient = createApiClient(API_BASE_URL);
 
-// Adaptador de repositorio simplificado
-export const pokemonRepository = {
+export const pokemonService = {
   getList: async (
     limit = DEFAULT_PAGE_SIZE,
     offset = 0,

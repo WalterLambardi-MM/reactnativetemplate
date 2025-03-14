@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native';
 import {
   GameDifficulty,
   GameType,
-} from '../features/minigame/types/minigame.types';
+} from '../../features/minigame/types/minigame.types';
 
 // Tipos para el stack principal
 export type MainStackParamList = {

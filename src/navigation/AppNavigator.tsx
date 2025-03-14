@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { ActivityIndicator, View } from 'react-native';
 import { AuthNavigator } from './AuthNavigator';
 import { MainNavigator } from './MainNavigator';
-import { RootStackParamList } from './types';
+import { RootStackParamList } from '../shared/types/navigation.types';
 import { useAuthStore } from '../features/authentication';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
