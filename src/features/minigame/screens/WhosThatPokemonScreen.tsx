@@ -1,37 +1,13 @@
-import React, { useCallback, useMemo } from 'react';
+import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useWhosThatPokemonViewModel } from '../hooks/useWhosThatPokemonViewModel';
 import { GameResult } from '../components/GameResult';
 import { GameHeader } from '../components/GameHeader';
 import { LoadingGame } from '../components/LoadingGame';
 import { ErrorScreen } from '../components/ErrorScreen';
 import { GameContent } from '../components/GameContent';
-import { useWhosThatPokemon } from '../hooks/useWhosThatPokemon';
-import { useGameBackHandler } from '../hooks/useGameBackHandler';
-import { GameStatus, GameType, GameDifficulty } from '../types/minigame.types';
-import { getTimeLimitForDifficulty } from '../utils/gameUtils';
-import {
-  MainNavigationProp,
-  MainRouteProp,
-} from '../../../shared/types/navigation.types';
 
 export const WhosThatPokemonScreen: React.FC = () => {
-  const navigation = useNavigation<MainNavigationProp<'WhosThatPokemon'>>();
-  const route = useRoute<MainRouteProp<'WhosThatPokemon'>>();
-  const { gameType, difficulty, questionCount } = route.params;
-
-  // Configuración del juego
-  const gameConfig = useMemo(
-    () => ({
-      gameType: gameType || GameType.WHOS_THAT_POKEMON,
-      difficulty: difficulty || GameDifficulty.MEDIUM,
-      questionCount: questionCount || 10,
-      timeLimit: getTimeLimitForDifficulty(difficulty),
-    }),
-    [gameType, difficulty, questionCount],
-  );
-
-  // Usar el hook personalizado para toda la lógica del juego
   const {
     currentGame,
     currentQuestion,
@@ -44,26 +20,9 @@ export const WhosThatPokemonScreen: React.FC = () => {
     isLastQuestion,
     handleSelectOption,
     handleNextQuestion,
-    resetGame,
-    restartGame,
-  } = useWhosThatPokemon(gameConfig);
-
-  // Volver a la pantalla de inicio
-  const handleGoHome = useCallback(() => {
-    resetGame();
-    navigation.goBack();
-  }, [resetGame, navigation]);
-
-  // Jugar de nuevo
-  const handlePlayAgain = useCallback(() => {
-    restartGame();
-  }, [restartGame]);
-
-  // Manejar el botón de retroceso
-  useGameBackHandler({
-    isGameInProgress: currentGame?.status === GameStatus.IN_PROGRESS,
-    onExit: handleGoHome,
-  });
+    handleGoHome,
+    handlePlayAgain,
+  } = useWhosThatPokemonViewModel();
 
   // Renderizar pantalla de carga
   if (isLoading && !currentGame) {
@@ -76,7 +35,7 @@ export const WhosThatPokemonScreen: React.FC = () => {
   }
 
   // Renderizar resultado final
-  if (currentGame?.status === GameStatus.COMPLETED) {
+  if (currentGame?.status === 'COMPLETED') {
     return (
       <SafeAreaView style={styles.container}>
         <GameResult
