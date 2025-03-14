@@ -13,6 +13,7 @@ export interface GameScore {
   date: number;
   score: number;
   totalQuestions: number;
+  correctAnswers: number;
   gameType: GameType;
 }
 

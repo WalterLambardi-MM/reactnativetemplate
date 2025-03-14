@@ -70,9 +70,9 @@ class AuthService {
     try {
       await GoogleSignin.hasPlayServices();
       await GoogleSignin.signIn();
-      
+
       const { accessToken, idToken } = await GoogleSignin.getTokens();
-      
+
       if (!idToken) {
         throw new Error('No ID token present!');
       }

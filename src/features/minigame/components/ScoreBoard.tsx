@@ -25,6 +25,27 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({ scores, gameType }) => {
     return date.toLocaleDateString();
   };
 
+  const calculateAccuracy = (score: GameScore) => {
+    // Si el score tiene correctAnswers, usarlo directamente
+    if (score.correctAnswers !== undefined) {
+      return Math.round((score.correctAnswers / score.totalQuestions) * 100);
+    }
+
+    // Si no, estimamos la precisión basada en la puntuación
+    // Asumiendo que cada respuesta correcta da un mínimo de puntos (puntuación base)
+    // Esta es una estimación y puede necesitar ajustes
+    const estimatedBaseScore = 50; // Puntuación mínima por pregunta correcta
+    const estimatedCorrectAnswers = Math.min(
+      score.totalQuestions,
+      Math.ceil(score.score / estimatedBaseScore),
+    );
+
+    return Math.min(
+      100,
+      Math.round((estimatedCorrectAnswers / score.totalQuestions) * 100),
+    );
+  };
+
   // Renderizar un elemento de puntuación
   const renderScoreItem = ({
     item,
@@ -36,9 +57,7 @@ export const ScoreBoard: React.FC<ScoreBoardProps> = ({ scores, gameType }) => {
     <View style={styles.scoreItem}>
       <Text style={styles.rank}>{index + 1}</Text>
       <Text style={styles.score}>{item.score}</Text>
-      <Text style={styles.accuracy}>
-        {Math.round((item.score / (item.totalQuestions * 100)) * 100)}%
-      </Text>
+      <Text style={styles.accuracy}>{calculateAccuracy(item)}%</Text>
       <Text style={styles.date}>{formatDate(item.date)}</Text>
     </View>
   );

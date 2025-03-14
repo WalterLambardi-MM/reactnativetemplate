@@ -153,6 +153,12 @@ export const useMinigameStore = create<MinigameStore>()(
           return question;
         });
 
+        const correctAnswers = updatedQuestions.filter((q) => {
+          if (q.selectedOption === undefined || q.selectedOption === -1)
+            return false;
+          return q.options[q.selectedOption].id === q.correctPokemon.id;
+        }).length;
+
         // Marcar el juego como completado
         const completedGame: CurrentGame = {
           ...currentGame,
@@ -167,6 +173,7 @@ export const useMinigameStore = create<MinigameStore>()(
           date: Date.now(),
           score: completedGame.score,
           totalQuestions: completedGame.questions.length,
+          correctAnswers,
           gameType: completedGame.gameType,
         };
 

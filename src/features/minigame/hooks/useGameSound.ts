@@ -71,6 +71,7 @@ export const useGameSound = () => {
         }
       });
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Reproducir sonido de respuesta correcta

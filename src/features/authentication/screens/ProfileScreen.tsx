@@ -46,7 +46,7 @@ export const ProfileScreen: React.FC = () => {
     try {
       setIsLoading(true);
       await authStoreRef.current.logout();
-    } catch (error) {
+    } catch {
       Alert.alert('Error', 'No se pudo cerrar sesión. Intenta de nuevo.');
     } finally {
       setIsLoading(false);
@@ -73,7 +73,7 @@ export const ProfileScreen: React.FC = () => {
       await authStoreRef.current.updateProfile({ displayName });
       setIsEditing(false);
       Alert.alert('Éxito', 'Perfil actualizado correctamente');
-    } catch (error) {
+    } catch {
       // El error ya se maneja en el store y se actualiza a través de la suscripción
     } finally {
       setIsLoading(false);

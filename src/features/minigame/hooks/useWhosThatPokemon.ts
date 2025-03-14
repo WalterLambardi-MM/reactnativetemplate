@@ -104,6 +104,7 @@ export const useWhosThatPokemon = (gameConfig: GameConfig) => {
       clearTimer();
       stopBackgroundMusic();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {

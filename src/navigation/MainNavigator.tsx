@@ -1,6 +1,6 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
 import { View } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { PokemonListScreen } from '../features/pokemon/screens/PokemonListScreen/PokemonListScreen';
 import { PokemonDetailScreen } from '../features/pokemon/screens/PokemonDetailScreen/PokemonDetailScreen';
 import { ProfileScreen } from '../features/authentication/screens/ProfileScreen';
