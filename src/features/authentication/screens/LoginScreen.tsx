@@ -6,25 +6,13 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { AuthForm } from '../components/AuthForm';
 import { GoogleSignInButton } from '../components/GoogleSignInButton';
+import { useLoginViewModel } from '../hooks/useLoginViewModel';
 
 export const LoginScreen = () => {
-  const navigation = useNavigation();
-
-  const handleRegisterPress = () => {
-    navigation.navigate('Register' as never);
-  };
-
-  const handleForgotPassword = () => {
-    navigation.navigate('PasswordReset' as never);
-  };
-
-  const handleLoginSuccess = () => {
-    // La navegación a la pantalla principal se manejará en el navegador principal
-    // basado en el estado de autenticación
-  };
+  const { handleRegisterPress, handleForgotPassword, handleLoginSuccess } =
+    useLoginViewModel();
 
   return (
     <SafeAreaView style={styles.container}>

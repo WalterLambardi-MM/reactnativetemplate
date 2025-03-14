@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useRoute, RouteProp } from '@react-navigation/native';
-import { usePokemonDetail } from './hooks';
+import { usePokemonDetail } from './usePokemonHooks';
 
 type RouteParams = {
   PokemonDetail: {

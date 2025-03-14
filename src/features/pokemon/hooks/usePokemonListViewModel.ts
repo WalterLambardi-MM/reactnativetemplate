@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { usePokemonList, useSearchPokemon } from './hooks';
+import { usePokemonList, useSearchPokemon } from './usePokemonHooks';
 import { PokemonBasic } from '../types/types';
 
 export const usePokemonListViewModel = () => {
