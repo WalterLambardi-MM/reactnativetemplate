@@ -1,4 +1,6 @@
-export class ApiError extends Error {
+import { ApiError as IApiError } from '../types/api';
+
+export class ApiError extends Error implements IApiError {
   constructor(
     public statusCode: number,
     message: string,
