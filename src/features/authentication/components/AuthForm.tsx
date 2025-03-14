@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TextInput,
@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { AuthFormState } from '../types/auth.types';
-import { useAuthStore } from '../store/authStore';
+import { useAuthForm } from '../hooks/useAuthForm';
 
 interface AuthFormProps {
   type: 'login' | 'register' | 'reset';
@@ -21,11 +21,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({
   onSuccess,
   initialValues = {},
 }) => {
-  // Obtener funciones del store directamente para evitar re-renderizados
-  const authStore = useRef(useAuthStore.getState());
-
-  // Estados locales
-  const [formState, setFormState] = useState<AuthFormState>({
+  // Crear estado inicial completo basado en el tipo y valores iniciales
+  const initialState: AuthFormState = {
     email: initialValues.email || '',
     password: initialValues.password || '',
     ...(type === 'register'
@@ -34,109 +31,44 @@ export const AuthForm: React.FC<AuthFormProps> = ({
           confirmPassword: initialValues.confirmPassword || '',
         }
       : {}),
+  };
+
+  // Usar el hook useAuthForm para toda la lógica del formulario
+  const {
+    values: formState,
+    errors,
+    storeError,
+    isLoading,
+    isSubmitting,
+    handleChange,
+    handleSubmit,
+  } = useAuthForm({
+    initialState,
+    formType: type,
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [storeError, setStoreError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Suscribirse a cambios en el estado de loading y error
-  useEffect(() => {
-    // Obtener estado inicial
-    setIsLoading(authStore.current.isLoading);
-    setStoreError(authStore.current.error);
-
-    // Suscribirse a cambios
-    const unsubscribe = useAuthStore.subscribe((state) => {
-      setIsLoading(state.isLoading);
-      setStoreError(state.error);
-    });
-
-    return unsubscribe;
-  }, []);
-
-  // Manejar cambios en los campos
-  const handleChange = useCallback(
-    (field: keyof AuthFormState, value: string) => {
-      setFormState((prev) => ({ ...prev, [field]: value }));
-      // Limpiar error cuando el usuario escribe
-      setErrors((prev) => ({ ...prev, [field]: '' }));
-      // Limpiar error del store
-      authStore.current.clearError();
-    },
-    [],
-  );
-
-  // Validar el formulario
-  const validate = useCallback(() => {
-    const newErrors: Record<string, string> = {};
-
-    // Validar email
-    if (!formState.email) {
-      newErrors.email = 'El correo electrónico es requerido';
-    } else if (!/\S+@\S+\.\S+/.test(formState.email)) {
-      newErrors.email = 'El correo electrónico no es válido';
-    }
-
-    // Validar contraseña (solo si se requiere)
-    if (type !== 'reset') {
-      if (!formState.password) {
-        newErrors.password = 'La contraseña es requerida';
-      } else if (formState.password.length < 6) {
-        newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
-      }
-    }
-
-    // Validar confirmación de contraseña (solo para registro)
-    if (
-      type === 'register' &&
-      formState.confirmPassword !== formState.password
-    ) {
-      newErrors.confirmPassword = 'Las contraseñas no coinciden';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  }, [formState, type]);
+  // Estado local para controlar el estado de envío adicional si es necesario
+  const [localSubmitting, setLocalSubmitting] = useState(false);
 
   // Manejar envío del formulario
-  const handleSubmit = useCallback(async () => {
-    if (isSubmitting || isLoading) return;
+  const handleFormSubmit = async () => {
+    if (localSubmitting || isSubmitting || isLoading) return;
 
-    if (!validate()) return;
-
-    setIsSubmitting(true);
-    let success = false;
-
+    setLocalSubmitting(true);
     try {
-      if (type === 'login') {
-        await authStore.current.login({
-          email: formState.email,
-          password: formState.password,
-        });
-        success = !authStore.current.error;
-      } else if (type === 'register') {
-        await authStore.current.register({
-          email: formState.email,
-          password: formState.password,
-          displayName: formState.displayName,
-        });
-        success = !authStore.current.error;
-      } else if (type === 'reset') {
-        await authStore.current.resetPassword(formState.email);
-        success = !authStore.current.error;
-      }
-
+      const success = await handleSubmit();
       if (success && onSuccess) {
         onSuccess();
       }
     } catch (error) {
       console.error('Error en el envío del formulario:', error);
     } finally {
-      setIsSubmitting(false);
+      setLocalSubmitting(false);
     }
-  }, [formState, type, isSubmitting, isLoading, validate, onSuccess]);
+  };
+
+  // Determinar si el formulario está en proceso de envío
+  const formIsSubmitting = isSubmitting || localSubmitting || isLoading;
 
   return (
     <View style={styles.container}>
@@ -162,7 +94,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
             value={formState.displayName}
             onChangeText={(value) => handleChange('displayName', value)}
             autoCapitalize="words"
-            editable={!isLoading && !isSubmitting}
+            editable={!formIsSubmitting}
           />
           {errors.displayName && (
             <Text style={styles.errorText}>{errors.displayName}</Text>
@@ -180,7 +112,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
           onChangeText={(value) => handleChange('email', value)}
           keyboardType="email-address"
           autoCapitalize="none"
-          editable={!isLoading && !isSubmitting}
+          editable={!formIsSubmitting}
         />
         {errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
       </View>
@@ -195,7 +127,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
             value={formState.password}
             onChangeText={(value) => handleChange('password', value)}
             secureTextEntry
-            editable={!isLoading && !isSubmitting}
+            editable={!formIsSubmitting}
           />
           {errors.password && (
             <Text style={styles.errorText}>{errors.password}</Text>
@@ -213,7 +145,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({
             value={formState.confirmPassword}
             onChangeText={(value) => handleChange('confirmPassword', value)}
             secureTextEntry
-            editable={!isLoading && !isSubmitting}
+            editable={!formIsSubmitting}
           />
           {errors.confirmPassword && (
             <Text style={styles.errorText}>{errors.confirmPassword}</Text>
@@ -223,14 +155,11 @@ export const AuthForm: React.FC<AuthFormProps> = ({
 
       {/* Botón de envío */}
       <TouchableOpacity
-        style={[
-          styles.button,
-          (isLoading || isSubmitting) && styles.buttonDisabled,
-        ]}
-        onPress={handleSubmit}
-        disabled={isLoading || isSubmitting}
+        style={[styles.button, formIsSubmitting && styles.buttonDisabled]}
+        onPress={handleFormSubmit}
+        disabled={formIsSubmitting}
       >
-        {isLoading || isSubmitting ? (
+        {formIsSubmitting ? (
           <ActivityIndicator color="#fff" />
         ) : (
           <Text style={styles.buttonText}>

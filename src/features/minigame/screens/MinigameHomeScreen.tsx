@@ -14,7 +14,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { ScoreBoard } from '../components/ScoreBoard';
 import { useMinigameStore } from '../store/minigameStore';
 import { GameType, GameDifficulty } from '../types/minigame.types';
-import { MainNavigationProp } from '../../../navigation/types';
+import { MainNavigationProp } from '../../../shared/types/navigation.types';
 
 LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
 

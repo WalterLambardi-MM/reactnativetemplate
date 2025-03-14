@@ -7,6 +7,31 @@ export interface ValidationErrors {
   confirmPassword?: string;
 }
 
+export enum ValidationFormType {
+  LOGIN = 'login',
+  REGISTER = 'register',
+  RESET_PASSWORD = 'reset',
+}
+
+export const validateAuthForm = (
+  data: AuthFormState,
+  formType: ValidationFormType | string,
+): ValidationErrors => {
+  switch (formType) {
+    case ValidationFormType.LOGIN:
+    case 'login':
+      return validateLoginForm(data);
+    case ValidationFormType.REGISTER:
+    case 'register':
+      return validateRegisterForm(data);
+    case ValidationFormType.RESET_PASSWORD:
+    case 'reset':
+      return validateResetPasswordForm(data.email);
+    default:
+      return {};
+  }
+};
+
 export const validateLoginForm = (data: AuthFormState): ValidationErrors => {
   const errors: ValidationErrors = {};
 

@@ -9,8 +9,11 @@ import { GameContent } from '../components/GameContent';
 import { useWhosThatPokemon } from '../hooks/useWhosThatPokemon';
 import { useGameBackHandler } from '../hooks/useGameBackHandler';
 import { GameStatus, GameType, GameDifficulty } from '../types/minigame.types';
-import { MainNavigationProp, MainRouteProp } from '../../../navigation/types';
 import { getTimeLimitForDifficulty } from '../utils/gameUtils';
+import {
+  MainNavigationProp,
+  MainRouteProp,
+} from '../../../shared/types/navigation.types';
 
 export const WhosThatPokemonScreen: React.FC = () => {
   const navigation = useNavigation<MainNavigationProp<'WhosThatPokemon'>>();
