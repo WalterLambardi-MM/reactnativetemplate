@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
   Text,
@@ -7,7 +7,7 @@ import {
   Image,
   View,
 } from 'react-native';
-import { useAuthStore } from '../store/authStore';
+import { useGoogleSignIn } from '../hooks/useGoogleSignIn';
 
 interface GoogleSignInButtonProps {
   onSuccess?: () => void;
@@ -16,33 +16,7 @@ interface GoogleSignInButtonProps {
 export const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = ({
   onSuccess,
 }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const loginWithProvider = useAuthStore((state) => state.loginWithProvider);
-
-  const handleGoogleSignIn = useCallback(async () => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      await loginWithProvider('google');
-      if (onSuccess) {
-        onSuccess();
-      }
-    } catch (err) {
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : 'Error al iniciar sesión con Google';
-      console.error('Error al iniciar sesión con Google:', errorMessage);
-      setError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [loginWithProvider, onSuccess, isLoading]);
+  const { isLoading, error, handleGoogleSignIn } = useGoogleSignIn(onSuccess);
 
   return (
     <View style={styles.container}>
