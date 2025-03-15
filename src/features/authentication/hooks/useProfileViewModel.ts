@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { Alert } from 'react-native';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../store/auth.store';
 
 export const useProfileViewModel = () => {
   // Usar useRef para acceder al store y evitar re-renderizados

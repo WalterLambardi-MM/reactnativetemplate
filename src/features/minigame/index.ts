@@ -12,7 +12,7 @@ export { useMinigame } from './hooks/useMinigame';
 export { useGameSound } from './hooks/useGameSound';
 
 // Store
-export { useMinigameStore } from './store/minigameStore';
+export { useMinigameStore } from './store/minigame.store';
 
 // Tipos
 export { GameType, GameStatus, GameDifficulty } from './types/minigame.types';

@@ -9,7 +9,7 @@ export { ProfileScreen } from './screens/ProfileScreen';
 export { useAuthForm } from './hooks/useAuthForm';
 
 // Store
-export { useAuthStore, useAuthUser, useAuthStatus } from './store/authStore';
+export { useAuthStore, useAuthUser, useAuthStatus } from './store/auth.store';
 
 // Servicios
 export { authService } from './services/authService';

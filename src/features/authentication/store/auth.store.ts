@@ -8,7 +8,7 @@ import {
   LoginCredentials,
   RegisterCredentials,
 } from '../types/auth.types';
-import { createReactotronLogger } from '../../../../ReactotronConfig';
+import { withReactotronMiddleware } from '../../../shared/store/middleware/reactotronMiddleware';
 import { StateCreator } from 'zustand';
 
 // Variable para almacenar la función de limpieza fuera del estado
@@ -277,9 +277,7 @@ const createBaseAuthStore: StateCreator<AuthStore, [], []> = (set, get) => ({
 export const useAuthStore = create<AuthStore>()(
   persist(
     // Aplicar el middleware de Reactotron en desarrollo
-    __DEV__
-      ? createReactotronLogger<AuthStore>('AuthStore')(createBaseAuthStore)
-      : createBaseAuthStore,
+    withReactotronMiddleware<AuthStore>('AuthStore', createBaseAuthStore),
     persistOptions,
   ),
 );

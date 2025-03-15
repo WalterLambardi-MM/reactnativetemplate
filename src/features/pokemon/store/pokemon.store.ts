@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage, PersistOptions } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PokemonBasic, PokemonDetail } from '../types/pokemon.types';
-import { withReactotron } from '../../../../ReactotronConfig';
+import { withReactotronMiddleware } from '../../../shared/store/middleware/reactotronMiddleware';
 import { StateCreator } from 'zustand';
 
 interface PokemonState {
@@ -24,7 +24,7 @@ interface PokemonState {
 }
 
 // Definir el creador de estado base con tipo correcto
-const createPokemonStore: StateCreator<PokemonState, [], []> = (set) => ({
+const createBasePokemonStore: StateCreator<PokemonState, [], []> = (set) => ({
   // Estado inicial
   pokemonList: [],
   selectedPokemon: null,
@@ -108,10 +108,11 @@ const persistOptions: PersistOptions<
 // Crear el store con middleware
 export const usePokemonStore = create<PokemonState>()(
   persist(
-    // Aplicar el middleware de Reactotron en desarrollo
-    __DEV__
-      ? withReactotron('PokemonStore', createPokemonStore)
-      : createPokemonStore,
+    // Aplicar el middleware de Reactotron estandarizado
+    withReactotronMiddleware<PokemonState>(
+      'PokemonStore',
+      createBasePokemonStore,
+    ),
     persistOptions,
   ),
 );

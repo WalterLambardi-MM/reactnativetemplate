@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { useMinigameStore } from '../store/minigameStore';
+import { useMinigameStore } from '../store/minigame.store';
 import { GameConfig } from '../types/minigame.types';
 import { useGameSound } from './useGameSound';
 

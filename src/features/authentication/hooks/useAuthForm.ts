@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { AuthFormState } from '../types/auth.types';
-import { useAuthStore } from '../store/authStore';
+import { useAuthStore } from '../store/auth.store';
 import { ValidationFormType, validateAuthForm } from '../utils/authValidation';
 import { useForm } from '../../../shared/hooks';
 

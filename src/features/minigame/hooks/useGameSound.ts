@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { Audio } from 'expo-av';
-import { useMinigameStore } from '../store/minigameStore';
+import { useMinigameStore } from '../store/minigame.store';
 import { GameStatus } from '../types/minigame.types';
 
 export const useGameSound = () => {

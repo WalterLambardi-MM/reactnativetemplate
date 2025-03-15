@@ -12,7 +12,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ScoreBoard } from '../components/ScoreBoard';
-import { useMinigameStore } from '../store/minigameStore';
+import { useMinigameStore } from '../store/minigame.store';
 import { GameType, GameDifficulty } from '../types/minigame.types';
 import { MainNavigationProp } from '../../../shared/types/navigation.types';
 

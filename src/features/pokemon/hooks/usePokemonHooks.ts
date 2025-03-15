@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { usePokemonStore } from '../store/store';
+import { usePokemonStore } from '../store/pokemon.store';
 import { pokemonService } from '../services/pokemonApi';
 import { PokemonBasic } from '../types/pokemon.types';
 import { ApiError } from '../../../shared/api/error-handling';
