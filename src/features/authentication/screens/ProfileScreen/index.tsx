@@ -5,7 +5,7 @@ import { useProfileViewModel } from '../../hooks/useProfileViewModel';
 import { LoadingIndicator } from '../../../../shared/components';
 import styles from './styles';
 
-export const ProfileScreen: React.FC = () => {
+export const ProfileScreen = () => {
   const {
     user,
     isLoading,
