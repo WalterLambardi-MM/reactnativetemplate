@@ -1,9 +1,9 @@
-// components
+// Components
 export { AuthForm } from './components/AuthForm';
 export { GoogleSignInButton } from './components/GoogleSignInButton';
 export { ProfileForm } from './components/ProfileForm';
 
-// screens
+// Screens
 export { ProfileScreen } from './screens/ProfileScreen';
 export { LoginScreen } from './screens/LoginScreen';
 export { RegisterScreen } from './screens/RegisterScreen';
@@ -30,3 +30,14 @@ export type {
   AuthFormState,
   AuthProvider,
 } from './types/auth.types';
+
+// Utils
+export {
+  validateAuthForm,
+  validateLoginForm,
+  validateRegisterForm,
+  validateResetPasswordForm,
+  ValidationFormType,
+} from './utils/authValidation';
+
+export type { ValidationErrors } from './utils/authValidation';

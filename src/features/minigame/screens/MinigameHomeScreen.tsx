@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { ScoreBoard } from '../components/ScoreBoard';
+import { ScoreBoard } from '../components/ScoreBoard/ScoreBoard';
 import { useMinigameStore } from '../store/minigame.store';
 import { GameType, GameDifficulty } from '../types/minigame.types';
 import { MainNavigationProp } from '../../../shared/types/navigation.types';

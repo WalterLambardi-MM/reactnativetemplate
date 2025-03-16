@@ -1,5 +1,5 @@
 import React from 'react';
-import { PokemonImage } from './PokemonImage';
+import { PokemonImage } from '../PokemonImage/PokemonImage';
 
 interface PokemonSilhouetteProps {
   imageUrl: string;

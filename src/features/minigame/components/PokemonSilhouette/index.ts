@@ -1,0 +1,1 @@
+export { PokemonSilhouette } from './PokemonSilhouette';

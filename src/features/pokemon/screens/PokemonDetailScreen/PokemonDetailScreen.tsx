@@ -2,7 +2,7 @@ import React from 'react';
 import { ScrollView } from 'react-native';
 import { usePokemonDetailViewModel } from '../../hooks/usePokemonDetailViewModel';
 import { LoadingIndicator, ErrorView } from '../../../../shared/components';
-import { PokemonDetailView } from '../../components/PokemonDetailView';
+import { PokemonDetailView } from '../../components/PokemonDetailView/PokemonDetailView';
 import styles from './styles';
 
 export const PokemonDetailScreen: React.FC = () => {

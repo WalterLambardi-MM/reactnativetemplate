@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView } from 'react-native';
 import { useWhosThatPokemonViewModel } from '../hooks/useWhosThatPokemonViewModel';
-import { GameResult } from '../components/GameResult';
-import { GameHeader } from '../components/GameHeader';
-import { LoadingGame } from '../components/LoadingGame';
-import { ErrorScreen } from '../components/ErrorScreen';
-import { GameContent } from '../components/GameContent';
+import { GameResult } from '../components/GameResult/GameResult';
+import { GameHeader } from '../components/GameHeader/GameHeader';
+import { LoadingGame } from '../components/LoadingGame/LoadingGame';
+import { ErrorScreen } from '../components/ErrorScreen/ErrorScreen';
+import { GameContent } from '../components/GameContent/GameContent';
 
 export const WhosThatPokemonScreen: React.FC = () => {
   const {

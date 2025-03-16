@@ -1,7 +1,8 @@
 import React from 'react';
-import { TouchableOpacity, Text, Image, StyleSheet } from 'react-native';
-import { Card } from '../../../shared/components';
-import { PokemonBasic } from '../types/pokemon.types';
+import { TouchableOpacity, Text, Image } from 'react-native';
+import { Card } from '../../../../shared/components';
+import { PokemonBasic } from '../../types/pokemon.types';
+import styles from './styles';
 
 interface PokemonCardProps {
   pokemon: PokemonBasic;
@@ -24,27 +25,3 @@ export const PokemonCard: React.FC<PokemonCardProps> = ({
     </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    flex: 1,
-    margin: 5,
-    padding: 15,
-    alignItems: 'center',
-  },
-  pokemonImage: {
-    width: 120,
-    height: 120,
-    marginBottom: 10,
-  },
-  pokemonName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  pokemonId: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-  },
-});

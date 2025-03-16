@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { PokemonSilhouette } from './PokemonSilhouette';
-import { GameOptions } from './GameOptions';
-import { TimerBar } from './TimerBar';
-import { AnswerResult } from './AnswerResult';
-import { GameQuestion } from '../types/minigame.types';
+import { View, Text } from 'react-native';
+import { PokemonSilhouette } from '../PokemonSilhouette/PokemonSilhouette';
+import { GameOptions } from '../GameOptions/GameOptions';
+import { TimerBar } from '../TimerBar/TimerBar';
+import { AnswerResult } from '../AnswerResult/AnswerResult';
+import { GameQuestion } from '../../types/minigame.types';
+import styles from './styles';
 
 interface GameContentProps {
   currentQuestion: GameQuestion;
@@ -63,19 +64,3 @@ export const GameContent: React.FC<GameContentProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  gameContent: {
-    flex: 1,
-    padding: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 30,
-    textAlign: 'center',
-    color: '#333',
-  },
-});

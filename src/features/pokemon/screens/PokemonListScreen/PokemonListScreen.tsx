@@ -2,8 +2,8 @@ import React from 'react';
 import { View } from 'react-native';
 import { usePokemonListViewModel } from '../../hooks/usePokemonListViewModel';
 import { LoadingIndicator, ErrorView } from '../../../../shared/components';
-import { PokemonList } from '../../components/PokemonList';
-import { SearchBar } from '../../components/SearchBar';
+import { PokemonList } from '../../components/PokemonList/PokemonList';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
 import styles from './styles';
 
 export const PokemonListScreen: React.FC = () => {

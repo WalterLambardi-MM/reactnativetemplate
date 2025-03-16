@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
+import styles from './styles';
 
 interface TimerBarProps {
   timeRemaining: number;
@@ -24,25 +25,3 @@ export const TimerBar: React.FC<TimerBarProps> = ({
     />
   </View>
 );
-
-const styles = StyleSheet.create({
-  timerContainer: {
-    height: 8,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 4,
-    marginVertical: 15,
-    width: '100%',
-    overflow: 'hidden',
-  },
-  timerBar: {
-    height: '100%',
-    backgroundColor: '#4caf50',
-    borderRadius: 4,
-  },
-  timerWarning: {
-    backgroundColor: '#ff9800',
-  },
-  timerCritical: {
-    backgroundColor: '#f44336',
-  },
-});

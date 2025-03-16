@@ -60,5 +60,5 @@ export interface GameConfig {
   gameType: GameType;
   questionCount: number;
   difficulty: GameDifficulty;
-  timeLimit?: number; // Tiempo en segundos por pregunta, si aplica
+  timeLimit?: number;
 }
